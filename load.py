@@ -41,6 +41,29 @@ def calculate_prior(cluster_data,k):
         temp.append(f/k)
     return temp
 
+def calc_mean(data):
+    k=len(data);
+    sum=0
+    for i in range(len(data)):
+        sum+=data[i]
+    temp_sum=float(sum)
+    temp_sum=temp_sum/k
+    return temp_sum
+
+def calc_stdev(data):
+    temp_mean = calc_mean(data)
+    sum=0
+    k=len(data)
+    for i in range(len(data)):
+        sum+=(data[i]-temp_mean)*(data[i]-temp_mean)
+    temp_sum=float(sum)
+    temp_sum=temp_sum/k
+    return temp_sum    
+
+
+
+
+
 def main():
     filename = 'ab.csv'
     dataset = loadCsv(filename)
@@ -51,6 +74,19 @@ def main():
     print 'Prior Probability Calculation'
     prior =  calculate_prior(cluster_data,len(dataset))
     print prior[0]
+    print 'Mean and Standard Deviation Calculation'
+    meanx=[]
+    stdevx=[]
+    for i in range(len(cluster_data)):
+        new1=[]
+        new2=[]
+        for j in range(len(cluster_data[i])):
+            new1.append(calc_mean(cluster_data[i][j]))
+            new2.append(calc_stdev(cluster_data[i][j]))
+        meanx.append(new1)
+        stdevx.append(new2)
+
+    print 'Done'
 
 main()
 
