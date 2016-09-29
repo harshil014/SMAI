@@ -68,15 +68,26 @@ def main():
     filename = 'ab.csv'
     dataset = loadCsv(filename)
     print 'Loaded data file {0} with {1} rows'.format(filename,len(dataset))
+    
+    #Data Clusering on the basis of the last column entries
     print 'Data Clustering '
+
     cluster_data = separateByCluster(dataset)
     print len(cluster_data)
+
+
+    #Prior Probability Calculation
     print 'Prior Probability Calculation'
     prior =  calculate_prior(cluster_data,len(dataset))
     print prior[0]
+
+    #Mean and Standard Deviation Calculation Cluster Wise
     print 'Mean and Standard Deviation Calculation'
     meanx=[]
     stdevx=[]
+    # meanx is the vector with individual cluster means of the features for the respective cluster
+    # stdevx is the vector with individual cluster standard deviations of the features for the respective cluster
+    
     for i in range(len(cluster_data)):
         new1=[]
         new2=[]

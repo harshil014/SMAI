@@ -8,9 +8,6 @@ import math
 def loadCsv(filename):
     lines = csv.reader(open(filename, 'rb'))
     dataset = list(lines)
-
-#    print dataset[1]
-
     count = 0
     csvfile = open('2.csv', 'w')
     write = csv.writer(csvfile, delimiter=',')
@@ -22,11 +19,8 @@ def loadCsv(filename):
             else:
                 dataset[i][j] = int(math.floor(float(dataset[i][j])))
     write.writerow(dataset[i])
-
-#    print count
-
     with open(filename) as f:
-        z = csv.reader(f, delimiter=',')
+        z = csv.reader(f, delimiter='\t')
     return dataset
 
 
@@ -47,6 +41,30 @@ def calculate_prior(cluster_data,k):
         temp.append(f/k)
     return temp
 
+def calc_mean(data):
+    k=len(data);
+    sum=0
+    for i in range(len(data)):
+        sum+=data[i]
+    temp_sum=float(sum)
+    temp_sum=temp_sum/k
+    return temp_sum
+
+def calc_stdev(data):
+    temp_mean = calc_mean(data)
+    sum=0
+    k=len(data)
+    for i in range(len(data)):
+        sum+=(data[i]-temp_mean)*(data[i]-temp_mean)
+    temp_sum=float(sum)
+    temp_sum=temp_sum/k
+    return temp_sum    
+
+
+
+
+
+
 def main():
     filename = 'ab.csv'
     dataset = loadCsv(filename)
@@ -54,10 +72,24 @@ def main():
     print 'Data Clustering '
     cluster_data = separateByCluster(dataset)
     print len(cluster_data)
+    print 'Prior Probability Calculation'
     prior =  calculate_prior(cluster_data,len(dataset))
     print prior[0]
+    print 'Mean and Standard Deviation Calculation'
+    meanx=[]
+    stdevx=[]
+    for i in range(len(cluster_data)):
+        new1=[]
+        new2=[]
+        for j in range(len(cluster_data[i])):
+            new1.append(calc_mean(cluster_data[i][j]))
+            new2.append(calc_stdev(cluster_data[i][j]))
+        meanx.append(new1)
+        stdevx.append(new2)
+
+    print 'Done'
 
 main()
 
 
-			
+            
