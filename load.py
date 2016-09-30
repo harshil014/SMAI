@@ -60,6 +60,25 @@ def calc_stdev(data):
     temp_sum=temp_sum/k
     return temp_sum    
 
+def normalise_data(cluster_data,meanx,stdevx):
+	part3=[]
+	for i in range(len(cluster_data)):
+		part2=[]
+		for j in range(len(cluster_data[i])):
+			part1=[]
+			for k in range(len(cluster_data[i][j])):
+				temp = (cluster_data[i][j][k]-meanx[i][j])*(cluster_data[i][j][k]-meanx[i][j]);
+				temp = temp/(stdevx[i][j]*stdevx[i][j])
+				r=1/math.sqrt(2*math.pi*(stdevx[i][j]))
+				temp = temp+ math.loglp(r)
+				part1.append(temp);
+			part2.append(part1);
+		part3.append(part2);
+	return part3
+
+
+
+
 
 
 
@@ -96,7 +115,9 @@ def main():
             new2.append(calc_stdev(cluster_data[i][j]))
         meanx.append(new1)
         stdevx.append(new2)
-
+        
+    print 'Normalising Content'
+    normalized=normalise_data(dataset,meanx,stdevx)
     print 'Done'
 
 main()
