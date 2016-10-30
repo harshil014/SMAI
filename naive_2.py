@@ -130,16 +130,23 @@ def main():
     
     #Data Clusering on the basis of the last column entries
     print 'Data Clustering '
-
+    threshold=5000
     cluster_data = separateByCluster(dataset)
     print len(cluster_data)
+    for i in range(len(cluster_data)):
+        if(len(cluster_data[i])>threshold):
+            print i
+            temp=[]
+            for j in range(len(cluster_data[i])):
+                temp.append(cluster_data[i][j])
+            cluster_data[i]=temp
 
 
     #Prior Probability Calculation
     print 'Prior Probability Calculation'
     prior =  calculate_prior(cluster_data,len(dataset))
     print prior,
-
+    print ' '
 
 
     #Mean and Standard Deviation Calculation Cluster Wise
@@ -166,7 +173,8 @@ def main():
     ground_truth=seperate_cluster(dataset)
     print ground_truth,
     percentage=accuracy(ground_truth,observed_clusters)
-    print percentage
+    print ' '
+    print 'Accuracy is :-',percentage,'%.'
     print 'Done'
     
 main()
